@@ -10,6 +10,7 @@ object JsonKit {
         serializersModule = SerializersModule {
             contextual(InstantSerializer)
             contextual(LocalDateSerializer)
+            contextual(LocalDateTimeSerializer)
             contextual(UriSerializer)
             contextual(UuidSerializer)
             contextual(YearMonthSerializer)

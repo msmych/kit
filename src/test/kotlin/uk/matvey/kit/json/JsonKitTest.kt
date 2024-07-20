@@ -9,6 +9,7 @@ import uk.matvey.kit.json.JsonKit.JSON
 import java.net.URI
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.Year
 import java.time.YearMonth
 import java.util.UUID
@@ -23,6 +24,7 @@ class JsonKitTest {
         data class Dummy(
             val instant: @Contextual Instant,
             val localDate: @Contextual LocalDate,
+            val localDateTime: @Contextual LocalDateTime,
             val uri: @Contextual URI,
             val uuid: @Contextual UUID,
             val year: @Contextual Year,
@@ -32,6 +34,7 @@ class JsonKitTest {
         val dummy = Dummy(
             instant = Instant.now(),
             localDate = LocalDate.now(),
+            localDateTime = LocalDateTime.now(),
             uri = URI.create("https://matvey.uk"),
             uuid = randomUUID(),
             year = Year.now(),
