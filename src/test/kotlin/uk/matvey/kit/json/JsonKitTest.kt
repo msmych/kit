@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.json.JsonKit.JSON
 import java.net.URI
+import java.time.Instant
 import java.time.Year
 import java.time.YearMonth
 import java.util.UUID
@@ -19,17 +20,19 @@ class JsonKitTest {
         // given
         @Serializable
         data class Dummy(
+            val instant: @Contextual Instant,
             val uri: @Contextual URI,
             val uuid: @Contextual UUID,
-            val yearMonth: @Contextual YearMonth,
             val year: @Contextual Year,
+            val yearMonth: @Contextual YearMonth,
         )
 
         val dummy = Dummy(
-            URI.create("https://matvey.uk"),
-            randomUUID(),
-            YearMonth.parse("2024-01"),
-            Year.of(2024),
+            instant = Instant.now(),
+            uri = URI.create("https://matvey.uk"),
+            uuid = randomUUID(),
+            year = Year.now(),
+            yearMonth = YearMonth.now(),
         )
 
         // when
