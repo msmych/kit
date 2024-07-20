@@ -7,18 +7,16 @@ plugins {
 val assertjVersion: String by project
 val mockkVersion: String by project
 val jupiterVersion: String by project
-val kotlinxCoroutinesVersion: String by project
 val kotlinxSerializationVersion: String by project
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
-    testApi(platform("org.junit:junit-bom:$jupiterVersion"))
-    testApi("org.junit.jupiter:junit-jupiter-api")
-    testApi("org.junit.jupiter:junit-jupiter-engine")
-    testApi("org.assertj:assertj-core:$assertjVersion")
-    testApi("io.mockk:mockk:$mockkVersion")
+    testImplementation(platform("org.junit:junit-bom:$jupiterVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 }
 
 repositories {

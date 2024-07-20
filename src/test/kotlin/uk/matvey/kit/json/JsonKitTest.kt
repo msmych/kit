@@ -2,10 +2,10 @@ package uk.matvey.kit.json
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import uk.matvey.kit.json.JsonKit.JSON
+import uk.matvey.kit.json.JsonKit.jsonDeserialize
+import uk.matvey.kit.json.JsonKit.jsonSerialize
 import java.net.URI
 import java.time.Instant
 import java.time.LocalDate
@@ -42,8 +42,8 @@ class JsonKitTest {
         )
 
         // when
-        val serialized = JSON.encodeToString(dummy)
-        val deserialized = JSON.decodeFromString<Dummy>(serialized)
+        val serialized = jsonSerialize(dummy)
+        val deserialized = jsonDeserialize<Dummy>(serialized)
 
         // then
         assertThat(deserialized).isEqualTo(dummy)
