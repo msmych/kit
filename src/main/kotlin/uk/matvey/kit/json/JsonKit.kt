@@ -9,6 +9,7 @@ object JsonKit {
     val JSON = Json {
         serializersModule = SerializersModule {
             contextual(InstantSerializer)
+            contextual(LocalDateSerializer)
             contextual(UriSerializer)
             contextual(UuidSerializer)
             contextual(YearMonthSerializer)
