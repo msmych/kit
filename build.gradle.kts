@@ -68,8 +68,8 @@ publishing {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/msmych/kit")
                 credentials {
-                    username = project.findProperty("gpr.user") as? String ?: System.getenv("GH_USER")
-                    password = project.findProperty("gpr.key") as? String ?: System.getenv("GH_TOKEN")
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GH_TOKEN")
                 }
             }
         }
