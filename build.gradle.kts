@@ -4,16 +4,21 @@ plugins {
     kotlin("plugin.serialization") version "2.0.0"
 }
 
-val kotlinxSerializationVersion: String by project
-val jupiterVersion: String by project
 val assertjVersion: String by project
+val mockkVersion: String by project
+val jupiterVersion: String by project
+val kotlinxCoroutinesVersion: String by project
+val kotlinxSerializationVersion: String by project
 
 dependencies {
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
-    testImplementation("org.assertj:assertj-core:$assertjVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
+    testApi(platform("org.junit:junit-bom:$jupiterVersion"))
+    testApi("org.junit.jupiter:junit-jupiter-api")
+    testApi("org.junit.jupiter:junit-jupiter-engine")
+    testApi("org.assertj:assertj-core:$assertjVersion")
+    testApi("io.mockk:mockk:$mockkVersion")
 }
 
 repositories {
@@ -68,8 +73,8 @@ publishing {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/msmych/kit")
                 credentials {
-                    username = project.findProperty("gpr.user") as? String ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.key") as? String ?: System.getenv("GH_TOKEN")
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GH_TOKEN")
                 }
             }
         }
