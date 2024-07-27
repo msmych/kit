@@ -7,10 +7,14 @@ plugins {
 val assertjVersion: String by project
 val coroutinesVersion: String by project
 val jupiterVersion: String by project
+val logbackVersion: String by project
+val loggingVersion: String by project
 val mockkVersion: String by project
 val serializationVersion: String by project
 
 dependencies {
+    api("ch.qos.logback:logback-classic:$logbackVersion")
+    api("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
 
