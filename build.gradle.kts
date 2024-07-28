@@ -18,11 +18,11 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
 
+    testImplementation(platform("org.junit:junit-bom:$jupiterVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testApi("io.mockk:mockk:$mockkVersion")
     testApi("org.assertj:assertj-core:$assertjVersion")
-    testApi("org.junit.jupiter:junit-jupiter-api")
-    testApi("org.junit.jupiter:junit-jupiter-engine")
-    testApi(platform("org.junit:junit-bom:$jupiterVersion"))
 }
 
 repositories {
