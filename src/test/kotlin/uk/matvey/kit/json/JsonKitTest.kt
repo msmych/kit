@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.json.JsonKit.jsonDeserialize
 import uk.matvey.kit.json.JsonKit.jsonSerialize
+import uk.matvey.kit.random.RandomKit.randomHttps
 import java.net.URI
 import java.time.Instant
 import java.time.LocalDate
@@ -35,7 +36,7 @@ class JsonKitTest {
             instant = Instant.now(),
             localDate = LocalDate.now(),
             localDateTime = LocalDateTime.now(),
-            uri = URI.create("https://matvey.uk"),
+            uri = URI.create(randomHttps()),
             uuid = randomUUID(),
             year = Year.now(),
             yearMonth = YearMonth.now(),

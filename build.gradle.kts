@@ -6,7 +6,8 @@ plugins {
 
 val assertjVersion: String by project
 val coroutinesVersion: String by project
-val jupiterVersion: String by project
+val i18nVersion: String by project
+val kotestVersion: String by project
 val logbackVersion: String by project
 val loggingVersion: String by project
 val mockkVersion: String by project
@@ -14,13 +15,12 @@ val serializationVersion: String by project
 
 dependencies {
     api("ch.qos.logback:logback-classic:$logbackVersion")
+    api("com.neovisionaries:nv-i18n:$i18nVersion")
     api("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
 
-    testImplementation(platform("org.junit:junit-bom:$jupiterVersion"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testApi("io.kotest:kotest-runner-junit5:$kotestVersion")
     testApi("io.mockk:mockk:$mockkVersion")
     testApi("org.assertj:assertj-core:$assertjVersion")
 }
