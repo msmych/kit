@@ -39,6 +39,12 @@ object RandomKit {
 
     fun randomInt(range: IntRange) = RANDOM.nextInt(range.first, range.last())
 
+    fun randomLong() = RANDOM.nextLong()
+
+    fun randomLong(until: Long) = RANDOM.nextLong(until)
+
+    fun randomLong(range: LongRange) = RANDOM.nextLong(range.first, range.last())
+
     fun randomStr(
         length: Int = randomInt(32),
         chars: List<Char> = ALL_SYMBOLS,
