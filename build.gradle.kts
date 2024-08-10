@@ -7,7 +7,7 @@ plugins {
 val assertjVersion: String by project
 val coroutinesVersion: String by project
 val i18nVersion: String by project
-val kotestVersion: String by project
+val junitVersion: String by project
 val logbackVersion: String by project
 val loggingVersion: String by project
 val mockkVersion: String by project
@@ -20,9 +20,11 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
 
-    testApi("io.kotest:kotest-runner-junit5:$kotestVersion")
-    testApi("io.mockk:mockk:$mockkVersion")
-    testApi("org.assertj:assertj-core:$assertjVersion")
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
 
 repositories {
@@ -34,8 +36,14 @@ tasks.test {
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     withJavadocJar()
     withSourcesJar()
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 publishing {

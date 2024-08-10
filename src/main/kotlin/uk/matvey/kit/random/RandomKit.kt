@@ -4,13 +4,32 @@ import kotlin.random.Random
 
 object RandomKit {
 
-    val LOWERCASE_LETTERS = ('a'..'z').toList()
-    val UPPERCASE_LETTERS = ('A'..'Z').toList()
-    val LETTERS = LOWERCASE_LETTERS + UPPERCASE_LETTERS
-    val DIGITS = ('0'..'9').toList()
-    val ALPHANUMERIC = LETTERS + DIGITS
-    val SPECIAL_SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?".toList()
-    val ALL_SYMBOLS = ALPHANUMERIC + SPECIAL_SYMBOLS + ' '
+    private val LOWERCASE_LETTERS = ('a'..'z').toList()
+    private val UPPERCASE_LETTERS = ('A'..'Z').toList()
+    private val LETTERS = LOWERCASE_LETTERS + UPPERCASE_LETTERS
+    private val DIGITS = ('0'..'9').toList()
+    private val ALPHANUMERIC = LETTERS + DIGITS
+    private val SPECIAL_SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?".toList()
+    private val ALL_SYMBOLS = ALPHANUMERIC + SPECIAL_SYMBOLS + ' '
+
+    private val DOMAINS = listOf(
+        "au",
+        "ca",
+        "co",
+        "com",
+        "de",
+        "edu",
+        "es",
+        "fr",
+        "gov",
+        "io",
+        "it",
+        "net",
+        "nl",
+        "org",
+        "ru",
+        "uk",
+    )
 
     val RANDOM = Random.Default
 
@@ -21,13 +40,13 @@ object RandomKit {
     fun randomInt(range: IntRange) = RANDOM.nextInt(range.first, range.last())
 
     fun randomStr(
-        length: Int = randomInt(until = 32),
+        length: Int = randomInt(32),
         chars: List<Char> = ALL_SYMBOLS,
     ): String {
         require(length >= 0) { "Length must be non-negative" }
         return buildString {
             repeat(length) {
-                append(chars[RANDOM.nextInt(chars.size)])
+                append(chars[randomInt(chars.size)])
             }
         }
     }
@@ -45,28 +64,10 @@ object RandomKit {
     }
 
     fun randomHttps(): String {
-        val domains = listOf(
-            "au",
-            "ca",
-            "co",
-            "com",
-            "de",
-            "edu",
-            "es",
-            "fr",
-            "gov",
-            "io",
-            "it",
-            "net",
-            "nl",
-            "org",
-            "ru",
-            "uk",
-        )
         val name = (0..randomInt(1..<3))
             .joinToString(".") {
                 randomAlphanumeric(randomInt(1..12))
             }
-        return "https://$name.${domains.random()}"
+        return "https://$name.${DOMAINS.random()}"
     }
 }
