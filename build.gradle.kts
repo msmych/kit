@@ -46,6 +46,12 @@ kotlin {
     jvmToolchain(21)
 }
 
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
