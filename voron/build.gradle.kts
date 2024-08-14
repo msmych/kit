@@ -23,6 +23,10 @@ dependencies {
     testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
 
+tasks.shadowJar {
+    enabled = false
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {

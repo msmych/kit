@@ -17,8 +17,4 @@ object KtorKit {
     suspend fun ApplicationCall.respondFtl(template: String, model: suspend () -> Any? = { null }) {
         respond(FreeMarkerContent("$template.ftl", model()))
     }
-
-    suspend fun ApplicationCall.respondFtl(template: String, vararg data: Pair<String, String>) {
-        respondFtl(template) { data.toMap() }
-    }
 }
