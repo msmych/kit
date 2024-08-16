@@ -1,6 +1,10 @@
 package uk.matvey.voron
 
+import freemarker.cache.ClassTemplateLoader
+import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.install
+import io.ktor.server.freemarker.FreeMarker
 import io.ktor.server.freemarker.FreeMarkerContent
 import io.ktor.server.response.respond
 
@@ -14,7 +18,14 @@ object KtorKit {
 
     fun ApplicationCall.queryParam(name: String) = requireNotNull(queryParamOrNull(name))
 
-    suspend fun ApplicationCall.respondFtl(template: String, model: suspend () -> Any? = { null }) {
-        respond(FreeMarkerContent("$template.ftl", model()))
+    fun Application.installFtl(path: String, configure: freemarker.template.Configuration.() -> Unit = {}) {
+        install(FreeMarker) {
+            templateLoader = ClassTemplateLoader(this::class.java.classLoader, path)
+            configure()
+        }
+    }
+
+    suspend fun ApplicationCall.respondFtl(template: String, model: Any? = null) {
+        respond(FreeMarkerContent("$template.ftl", model))
     }
 }

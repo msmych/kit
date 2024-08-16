@@ -1,17 +1,16 @@
 package uk.matvey.voron
 
-import freemarker.cache.ClassTemplateLoader
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode.Companion.OK
 import io.ktor.server.application.call
-import io.ktor.server.freemarker.FreeMarker
 import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.testing.testApplication
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.random.RandomKit.randomAlphanumeric
+import uk.matvey.voron.KtorKit.installFtl
 import uk.matvey.voron.KtorKit.pathParam
 import uk.matvey.voron.KtorKit.queryParam
 import uk.matvey.voron.KtorKit.respondFtl
@@ -52,13 +51,13 @@ class KtorKitTest {
     @Test
     fun `should respond ftl`() = testApplication {
         // given
-        install(FreeMarker) {
-            templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
+        application {
+            installFtl("templates")
         }
         routing {
             get("/greet") {
                 data class UserRs(val name: String)
-                call.respondFtl("index") { UserRs(call.queryParam("name")) }
+                call.respondFtl("index", UserRs(call.queryParam("name")))
             }
         }
 
