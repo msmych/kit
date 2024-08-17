@@ -1,5 +1,6 @@
 package uk.matvey.kit.random
 
+import uk.matvey.kit.string.StringKit.capital
 import kotlin.random.Random
 
 object RandomKit {
@@ -67,6 +68,18 @@ object RandomKit {
 
     fun randomAlphanumeric(length: Int = randomInt(1..<32)): String {
         return randomStr(length, ALPHANUMERIC)
+    }
+
+    fun randomName(): String {
+        return capital(randomAlphabetic(randomInt(2..12)))
+    }
+
+    fun randomFullName(): String {
+        return "${randomName()} ${randomName()}"
+    }
+
+    fun randomEmail(): String {
+        return "${randomName().lowercase()}@${randomAlphanumeric(randomInt(1..12)).lowercase()}.${DOMAINS.random()}"
     }
 
     fun randomHttps(): String {

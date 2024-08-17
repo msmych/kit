@@ -1,6 +1,8 @@
 package uk.matvey.kit.string
 
+import java.time.LocalDate
 import java.util.Locale
+import java.util.UUID
 
 object StringKit {
 
@@ -13,4 +15,8 @@ object StringKit {
             }
         }
     }
+
+    fun String.toUuid() = UUID.fromString(this)
+
+    fun String.toLocalDate() = LocalDate.parse(this)
 }
