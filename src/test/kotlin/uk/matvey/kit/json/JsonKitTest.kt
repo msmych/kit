@@ -4,8 +4,15 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import uk.matvey.kit.json.JsonKit.arr
+import uk.matvey.kit.json.JsonKit.bool
+import uk.matvey.kit.json.JsonKit.jsonArrayDeserialize
 import uk.matvey.kit.json.JsonKit.jsonDeserialize
+import uk.matvey.kit.json.JsonKit.jsonObjectDeserialize
 import uk.matvey.kit.json.JsonKit.jsonSerialize
+import uk.matvey.kit.json.JsonKit.long
+import uk.matvey.kit.json.JsonKit.objAt
+import uk.matvey.kit.json.JsonKit.str
 import uk.matvey.kit.random.RandomKit.randomHttps
 import java.net.URI
 import java.time.Instant
@@ -17,6 +24,35 @@ import java.util.UUID
 import java.util.UUID.randomUUID
 
 class JsonKitTest {
+
+    private val jsonObject = """
+            {
+                "key": "value",
+                "num": 999,
+                "victory": true,
+                "obj": {
+                    "key": "value"
+                },
+                "arr": [
+                    {
+                        "key": "value1"
+                    },
+                    {
+                        "key": "value2"
+                    }
+                ]
+            }
+        """.trimIndent()
+    private val jsonArray = """
+            [
+                {
+                    "key": "value1"
+                },
+                {
+                    "key": "value2"
+                }
+            ]
+        """.trimIndent()
 
     @Test
     fun `should serialize and deserialize`() {
@@ -48,5 +84,25 @@ class JsonKitTest {
 
         // then
         assertThat(deserialized).isEqualTo(dummy)
+    }
+
+    @Test
+    fun `should deserialize json object and array`() {
+        // when / then
+        assertThat(jsonObjectDeserialize(jsonObject).str("key")).isEqualTo("value")
+        assertThat(jsonArrayDeserialize(jsonArray).objAt(0).str("key")).isEqualTo("value1")
+        assertThat(jsonArrayDeserialize(jsonArray).objAt(1).str("key")).isEqualTo("value2")
+    }
+
+    @Test
+    fun `should access json elements`() {
+        // when / then
+        val obj = jsonObjectDeserialize(jsonObject)
+        val arr = jsonObjectDeserialize(jsonObject).arr("arr")
+        assertThat(obj.str("key")).isEqualTo("value")
+        assertThat(obj.long("num")).isEqualTo(999L)
+        assertThat(obj.bool("victory")).isTrue()
+        assertThat(obj.str("key")).isEqualTo("value")
+        assertThat(arr.objAt(0).str("key")).isEqualTo("value1")
     }
 }
