@@ -3,9 +3,15 @@ package uk.matvey.kit.string
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.string.StringKit.capital
+import uk.matvey.kit.string.StringKit.toInstant
 import uk.matvey.kit.string.StringKit.toLocalDate
+import uk.matvey.kit.string.StringKit.toLocalDateTime
 import uk.matvey.kit.string.StringKit.toUuid
+import uk.matvey.kit.string.StringKit.toYearMonth
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.YearMonth
 import java.util.UUID.randomUUID
 
 class StringKitTest {
@@ -38,5 +44,32 @@ class StringKitTest {
 
         // when / then
         assertThat(date.toString().toLocalDate()).isEqualTo(date)
+    }
+
+    @Test
+    fun `should convert string to LocalDateTime`() {
+        // given
+        val dateTime = LocalDateTime.now()
+
+        // when / then
+        assertThat(dateTime.toString().toLocalDateTime()).isEqualTo(dateTime)
+    }
+
+    @Test
+    fun `should convert string to YearMonth`() {
+        // given
+        val yearMonth = YearMonth.now()
+
+        // when / then
+        assertThat(yearMonth.toString().toYearMonth()).isEqualTo(yearMonth)
+    }
+
+    @Test
+    fun `should convert string to Instant`() {
+        // given
+        val instant = Instant.now()
+
+        // when / then
+        assertThat(instant.toString().toInstant()).isEqualTo(instant)
     }
 }

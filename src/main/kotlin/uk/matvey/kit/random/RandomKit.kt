@@ -71,7 +71,7 @@ object RandomKit {
     }
 
     fun randomName(): String {
-        return capital(randomAlphabetic(randomInt(2..12)))
+        return capital(randomAlphabetic(randomInt(2..12)).lowercase())
     }
 
     fun randomFullName(): String {
