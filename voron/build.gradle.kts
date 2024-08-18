@@ -14,6 +14,8 @@ dependencies {
     api("io.ktor:ktor-server-freemarker")
     api("io.ktor:ktor-client-core")
     api("io.ktor:ktor-client-cio")
+    api("io.ktor:ktor-client-content-negotiation")
+    api("io.ktor:ktor-serialization-kotlinx-json")
 
     implementation(project(":"))
 
