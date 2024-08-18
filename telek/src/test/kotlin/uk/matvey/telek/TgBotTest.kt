@@ -22,12 +22,13 @@ class TgBotTest {
         val job = launch {
             tgBot.start {
                 log.info { it }
-                val m = tgBot.sendMessage(it.message().from().id, it.message().text())
+                val from = it.message().from()
+                val m = tgBot.sendMessage(from.id, "${it.message().text()}, ${from.firstName}")
                 log.info { m }
             }
         }
 
-        delay(30_000)
+        delay(50_000)
         job.cancel()
     }
 }

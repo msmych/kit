@@ -68,13 +68,18 @@ class TgBot(
         }
     }
 
-    suspend fun sendMessage(chatId: Long, text: String): JsonObject {
+    suspend fun sendMessage(
+        chatId: Long,
+        text: String,
+        parseMode: TgParseMode? = null,
+    ): JsonObject {
         val rs = client.post("$baseUrl/sendMessage") {
             contentType(Application.Json)
             setBody(
                 buildJsonObject {
                     put("chat_id", chatId)
                     put("text", text)
+                    parseMode?.let { put("parse_mode", it.name) }
                 }
             )
         }

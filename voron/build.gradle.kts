@@ -7,6 +7,7 @@ plugins {
 
 val assertjVersion: String by project
 val junitVersion: String by project
+val jwtVersion: String by project
 
 dependencies {
     api("io.ktor:ktor-server-core")
@@ -16,6 +17,7 @@ dependencies {
     api("io.ktor:ktor-client-cio")
     api("io.ktor:ktor-client-content-negotiation")
     api("io.ktor:ktor-serialization-kotlinx-json")
+    api("com.auth0:java-jwt:$jwtVersion")
 
     implementation(project(":"))
 
