@@ -4,11 +4,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.long
+import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 
@@ -43,24 +44,44 @@ object JsonKit {
         return JSON.parseToJsonElement(json).jsonArray
     }
 
+    fun JsonObject.strOrNull(key: String): String? {
+        return get(key)?.jsonPrimitive?.contentOrNull
+    }
+
     fun JsonObject.str(key: String): String {
-        return getValue(key).jsonPrimitive.content
+        return requireNotNull(strOrNull(key))
+    }
+
+    fun JsonObject.longOrNull(key: String): Long? {
+        return get(key)?.jsonPrimitive?.longOrNull
     }
 
     fun JsonObject.long(key: String): Long {
-        return getValue(key).jsonPrimitive.long
+        return requireNotNull(longOrNull(key))
+    }
+
+    fun JsonObject.boolOrNull(key: String): Boolean? {
+        return get(key)?.jsonPrimitive?.booleanOrNull
     }
 
     fun JsonObject.bool(key: String): Boolean {
-        return getValue(key).jsonPrimitive.boolean
+        return requireNotNull(boolOrNull(key))
+    }
+
+    fun JsonObject.objOrNull(key: String): JsonObject? {
+        return get(key)?.jsonObject
     }
 
     fun JsonObject.obj(key: String): JsonObject {
-        return getValue(key).jsonObject
+        return requireNotNull(objOrNull(key))
+    }
+
+    fun JsonObject.arrOrNull(key: String): JsonArray? {
+        return get(key)?.jsonArray
     }
 
     fun JsonObject.arr(key: String): JsonArray {
-        return getValue(key).jsonArray
+        return requireNotNull(arrOrNull(key))
     }
 
     fun JsonArray.objAt(index: Int): JsonObject {
