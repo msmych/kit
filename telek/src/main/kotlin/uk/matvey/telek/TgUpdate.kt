@@ -8,6 +8,8 @@ data class TgUpdate(
     @SerialName("update_id")
     val id: Int,
     val message: TgMessage? = null,
+    @SerialName("callback_query")
+    val callbackQuery: TgCallbackQuery? = null,
 ) {
 
     fun message() = requireNotNull(message)

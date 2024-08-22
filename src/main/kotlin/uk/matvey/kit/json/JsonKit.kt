@@ -29,28 +29,30 @@ object JsonKit {
         }
     }
 
+    fun json() = JSON
+
     inline fun <reified T> jsonSerialize(value: T): String {
-        return JSON.encodeToString(value)
+        return json().encodeToString(value)
     }
 
     inline fun <reified T> jsonDeserialize(json: String): T {
-        return JSON.decodeFromString(json)
+        return json().decodeFromString(json)
     }
 
     inline fun <reified T> jsonObjectSerialize(value: T): JsonObject {
-        return JSON.encodeToJsonElement(value).jsonObject
+        return json().encodeToJsonElement(value).jsonObject
     }
 
     fun jsonObjectDeserialize(json: String): JsonObject {
-        return JSON.parseToJsonElement(json).jsonObject
+        return json().parseToJsonElement(json).jsonObject
     }
 
     inline fun <reified T> jsonArraySerialize(values: Collection<T>): JsonArray {
-        return JSON.encodeToJsonElement(values).jsonArray
+        return json().encodeToJsonElement(values).jsonArray
     }
 
     fun jsonArrayDeserialize(json: String): JsonArray {
-        return JSON.parseToJsonElement(json).jsonArray
+        return json().parseToJsonElement(json).jsonArray
     }
 
     fun JsonObject.strOrNull(key: String): String? {
