@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -36,8 +37,16 @@ object JsonKit {
         return JSON.decodeFromString(json)
     }
 
+    inline fun <reified T> jsonObjectSerialize(value: T): JsonObject {
+        return JSON.encodeToJsonElement(value).jsonObject
+    }
+
     fun jsonObjectDeserialize(json: String): JsonObject {
         return JSON.parseToJsonElement(json).jsonObject
+    }
+
+    inline fun <reified T> jsonArraySerialize(values: Collection<T>): JsonArray {
+        return JSON.encodeToJsonElement(values).jsonArray
     }
 
     fun jsonArrayDeserialize(json: String): JsonArray {

@@ -1,7 +1,9 @@
 package uk.matvey.telek
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -10,7 +12,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType.Application
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -24,9 +25,10 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonObject
 import uk.matvey.kit.json.JsonKit.JSON
 import uk.matvey.kit.json.JsonKit.bool
-import uk.matvey.kit.json.JsonKit.jsonObjectDeserialize
+import uk.matvey.kit.json.JsonKit.jsonArraySerialize
 
 class TgBot(
     token: String,
@@ -50,6 +52,8 @@ class TgBot(
                 offset?.let { url.parameters.append("offset", it.toString()) }
                 longPollingSeconds.takeIf { it > 0 }?.let { url.parameters.append("timeout", it.toString()) }
             }
+        } catch (e: ConnectTimeoutException) {
+            return listOf()
         } catch (e: HttpRequestTimeoutException) {
             return listOf()
         }
@@ -72,6 +76,7 @@ class TgBot(
         chatId: Long,
         text: String,
         parseMode: TgParseMode? = null,
+        inlineKeyboard: List<List<TgInlineKeyboardButton>>? = null,
     ): JsonObject {
         val rs = client.post("$baseUrl/sendMessage") {
             contentType(Application.Json)
@@ -80,6 +85,11 @@ class TgBot(
                     put("chat_id", chatId)
                     put("text", text)
                     parseMode?.let { put("parse_mode", it.name) }
+                    inlineKeyboard?.let { ikb ->
+                        putJsonObject("reply_markup") {
+                            put("inline_keyboard", jsonArraySerialize(ikb))
+                        }
+                    }
                 }
             )
         }
@@ -87,7 +97,7 @@ class TgBot(
     }
 
     private suspend fun HttpResponse.tgResult(): JsonElement {
-        return jsonObjectDeserialize(bodyAsText())
+        return body<JsonObject>()
             .also {
                 if (!it.bool("ok")) {
                     throw TgRequestException.fromTgResponse(it)

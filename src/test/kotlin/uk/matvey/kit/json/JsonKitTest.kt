@@ -14,6 +14,11 @@ import uk.matvey.kit.json.JsonKit.long
 import uk.matvey.kit.json.JsonKit.objAt
 import uk.matvey.kit.json.JsonKit.str
 import uk.matvey.kit.random.RandomKit.randomHttps
+import uk.matvey.kit.time.TimeKit.instant
+import uk.matvey.kit.time.TimeKit.localDate
+import uk.matvey.kit.time.TimeKit.localDateTime
+import uk.matvey.kit.time.TimeKit.year
+import uk.matvey.kit.time.TimeKit.yearMonth
 import java.net.URI
 import java.time.Instant
 import java.time.LocalDate
@@ -64,18 +69,18 @@ class JsonKitTest {
             val localDateTime: @Contextual LocalDateTime,
             val uri: @Contextual URI,
             val uuid: @Contextual UUID,
-            val year: @Contextual Year,
             val yearMonth: @Contextual YearMonth,
+            val year: @Contextual Year,
         )
 
         val dummy = Dummy(
-            instant = Instant.now(),
-            localDate = LocalDate.now(),
-            localDateTime = LocalDateTime.now(),
+            instant = instant(),
+            localDate = localDate(),
+            localDateTime = localDateTime(),
             uri = URI.create(randomHttps()),
             uuid = randomUUID(),
-            year = Year.now(),
-            yearMonth = YearMonth.now(),
+            yearMonth = yearMonth(),
+            year = year(),
         )
 
         // when
