@@ -3,13 +3,16 @@ package uk.matvey.kit.json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
 import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
@@ -55,47 +58,37 @@ object JsonKit {
         return json().parseToJsonElement(json).jsonArray
     }
 
-    fun JsonObject.strOrNull(key: String): String? {
-        return get(key)?.jsonPrimitive?.contentOrNull
-    }
+    fun JsonElement.asStrOrNull() = jsonPrimitive.contentOrNull
 
-    fun JsonObject.str(key: String): String {
-        return requireNotNull(strOrNull(key))
-    }
+    fun JsonElement.asStr() = jsonPrimitive.content
 
-    fun JsonObject.longOrNull(key: String): Long? {
-        return get(key)?.jsonPrimitive?.longOrNull
-    }
+    fun JsonElement.asLongOrNull() = jsonPrimitive.longOrNull
 
-    fun JsonObject.long(key: String): Long {
-        return requireNotNull(longOrNull(key))
-    }
+    fun JsonElement.asLong() = jsonPrimitive.long
 
-    fun JsonObject.boolOrNull(key: String): Boolean? {
-        return get(key)?.jsonPrimitive?.booleanOrNull
-    }
+    fun JsonElement.asBoolOrNull() = jsonPrimitive.booleanOrNull
 
-    fun JsonObject.bool(key: String): Boolean {
-        return requireNotNull(boolOrNull(key))
-    }
+    fun JsonElement.asBool() = jsonPrimitive.boolean
 
-    fun JsonObject.objOrNull(key: String): JsonObject? {
-        return get(key)?.jsonObject
-    }
+    fun JsonObject.strOrNull(key: String) = get(key)?.asStrOrNull()
 
-    fun JsonObject.obj(key: String): JsonObject {
-        return requireNotNull(objOrNull(key))
-    }
+    fun JsonObject.str(key: String) = getValue(key).asStr()
 
-    fun JsonObject.arrOrNull(key: String): JsonArray? {
-        return get(key)?.jsonArray
-    }
+    fun JsonObject.longOrNull(key: String) = get(key)?.asLongOrNull()
 
-    fun JsonObject.arr(key: String): JsonArray {
-        return requireNotNull(arrOrNull(key))
-    }
+    fun JsonObject.long(key: String) = getValue(key).asLong()
 
-    fun JsonArray.objAt(index: Int): JsonObject {
-        return get(index).jsonObject
-    }
+    fun JsonObject.boolOrNull(key: String) = get(key)?.asBoolOrNull()
+
+    fun JsonObject.bool(key: String) = getValue(key).asBool()
+
+    fun JsonObject.objOrNull(key: String) = get(key)?.jsonObject
+
+    fun JsonObject.obj(key: String) = getValue(key).jsonObject
+
+    fun JsonObject.arrOrNull(key: String) = get(key)?.jsonArray
+
+    fun JsonObject.arr(key: String) = getValue(key).jsonArray
+
+    fun JsonArray.objAt(index: Int) = get(index).jsonObject
 }

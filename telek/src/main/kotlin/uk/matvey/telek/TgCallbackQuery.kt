@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class TgCallbackQuery(
     val id: String,
     val from: TgUser,
+    val message: TgMessage,
     val data: String? = null,
 )

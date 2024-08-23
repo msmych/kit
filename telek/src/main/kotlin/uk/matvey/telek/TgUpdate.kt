@@ -13,4 +13,6 @@ data class TgUpdate(
 ) {
 
     fun message() = requireNotNull(message)
+
+    fun callbackQuery() = requireNotNull(callbackQuery)
 }
