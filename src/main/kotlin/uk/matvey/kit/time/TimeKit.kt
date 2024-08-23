@@ -16,6 +16,8 @@ object TimeKit {
 
     fun localDate() = LocalDate.now(clock())
 
+    fun localTime() = LocalDateTime.now(clock())
+
     fun localDateTime() = LocalDateTime.now(clock())
 
     fun yearMonth() = YearMonth.now(clock())

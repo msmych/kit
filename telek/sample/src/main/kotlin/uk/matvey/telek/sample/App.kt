@@ -15,6 +15,7 @@ fun main(args: Array<String>) = runBlocking {
     val bot = TgBot(
         token = args[0],
         longPollingSeconds = 60,
+        onUpdatesRetrievalException = { log.error(it) { "Failed to retrieve updates" } },
         onUpdateProcessingException = { log.error(it) { "Failed to process update" } },
     )
     val job = CoroutineScope(Dispatchers.IO).launch {
