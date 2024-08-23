@@ -9,6 +9,9 @@ data class TgMessage(
     val id: Int,
     val from: TgUser? = null,
     val text: String? = null,
+    val chat: TgChat,
+    @SerialName("parse_mode")
+    val parseMode: TgParseMode? = null,
 ) {
 
     fun from() = requireNotNull(from)

@@ -1,6 +1,7 @@
 rootProject.name = "kit"
 
 include(
-    "telek",
     "voron",
+    "telek",
+    "telek:sample",
 )

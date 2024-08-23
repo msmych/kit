@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -23,16 +24,18 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import uk.matvey.kit.json.JsonKit.JSON
+import uk.matvey.kit.json.JsonKit.asBool
 import uk.matvey.kit.json.JsonKit.bool
 import uk.matvey.kit.json.JsonKit.jsonArraySerialize
 
 class TgBot(
     token: String,
     private val longPollingSeconds: Int = 0,
+    private val onUpdatesRetrievalException: (Exception) -> Unit = {},
+    private val onUpdateProcessingException: (Exception) -> Unit = {},
 ) {
     private val baseUrl = "https://api.telegram.org/bot$token"
 
@@ -41,10 +44,13 @@ class TgBot(
         install(ContentNegotiation) {
             json(JSON)
         }
+        install(DefaultRequest) {
+            contentType(Application.Json)
+        }
     }
 
     suspend fun getUpdates(offset: Int? = null): List<TgUpdate> {
-        val rs = try {
+        return try {
             client.get("$baseUrl/getUpdates") {
                 timeout {
                     requestTimeoutMillis = (1000L * longPollingSeconds).coerceAtLeast(5000)
@@ -56,14 +62,25 @@ class TgBot(
             return listOf()
         } catch (e: HttpRequestTimeoutException) {
             return listOf()
+        } catch (e: Exception) {
+            onUpdatesRetrievalException(e)
+            return listOf()
         }
-        return rs.tgResult().jsonArray.map(JSON::decodeFromJsonElement)
+            .tgResult()
+            .jsonArray
+            .map(JSON::decodeFromJsonElement)
     }
 
     suspend fun start(block: suspend (TgUpdate) -> Unit) = coroutineScope {
         while (isActive) {
             getUpdates()
-                .onEach { update -> block(update) }
+                .onEach { update ->
+                    try {
+                        block(update)
+                    } catch (e: Exception) {
+                        onUpdateProcessingException(e)
+                    }
+                }
                 .lastOrNull()
                 ?.let { lastUpdate ->
                     getUpdates(lastUpdate.id + 1)
@@ -77,9 +94,8 @@ class TgBot(
         text: String,
         parseMode: TgParseMode? = null,
         inlineKeyboard: List<List<TgInlineKeyboardButton>>? = null,
-    ): JsonObject {
-        val rs = client.post("$baseUrl/sendMessage") {
-            contentType(Application.Json)
+    ): TgMessage {
+        return client.post("$baseUrl/sendMessage") {
             setBody(
                 buildJsonObject {
                     put("chat_id", chatId)
@@ -93,7 +109,41 @@ class TgBot(
                 }
             )
         }
-        return rs.tgResult().jsonObject
+            .tgResult()
+            .let(JSON::decodeFromJsonElement)
+    }
+
+    suspend fun updateMessageInlineKeyboard(
+        message: TgMessage,
+        inlineKeyboard: List<List<TgInlineKeyboardButton>>,
+    ): TgMessage {
+        return client.post("$baseUrl/editMessageText") {
+            setBody(
+                buildJsonObject {
+                    put("chat_id", message.chat.id)
+                    put("text", message.text())
+                    put("message_id", message.id)
+                    message.parseMode?.let { put("parse_mode", it.name) }
+                    putJsonObject("reply_markup") {
+                        put("inline_keyboard", jsonArraySerialize(inlineKeyboard))
+                    }
+                }
+            )
+        }
+            .tgResult()
+            .let(JSON::decodeFromJsonElement)
+    }
+
+    suspend fun answerCallbackQuery(callbackQueryId: String): Boolean {
+        return client.post("$baseUrl/answerCallbackQuery") {
+            setBody(
+                buildJsonObject {
+                    put("callback_query_id", callbackQueryId)
+                }
+            )
+        }
+            .tgResult()
+            .asBool()
     }
 
     private suspend fun HttpResponse.tgResult(): JsonElement {
