@@ -113,19 +113,22 @@ class TgBot(
             .let(JSON::decodeFromJsonElement)
     }
 
-    suspend fun updateMessageInlineKeyboard(
+    suspend fun editMessage(
         message: TgMessage,
-        inlineKeyboard: List<List<TgInlineKeyboardButton>>,
+        text: String? = null,
+        inlineKeyboard: List<List<TgInlineKeyboardButton>>? = null,
     ): TgMessage {
         return client.post("$baseUrl/editMessageText") {
             setBody(
                 buildJsonObject {
                     put("chat_id", message.chat.id)
-                    put("text", message.text())
+                    put("text", text ?: message.text())
                     put("message_id", message.id)
                     message.parseMode?.let { put("parse_mode", it.name) }
-                    putJsonObject("reply_markup") {
-                        put("inline_keyboard", jsonArraySerialize(inlineKeyboard))
+                    (inlineKeyboard ?: message.replyMarkup?.inlineKeyboard)?.let {
+                        putJsonObject("reply_markup") {
+                            put("inline_keyboard", jsonArraySerialize(it))
+                        }
                     }
                 }
             )

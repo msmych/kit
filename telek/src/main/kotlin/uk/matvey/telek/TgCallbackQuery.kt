@@ -8,4 +8,7 @@ data class TgCallbackQuery(
     val from: TgUser,
     val message: TgMessage,
     val data: String? = null,
-)
+) {
+
+    fun data() = requireNotNull(data)
+}

@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import uk.matvey.kit.random.RandomKit.randomHttps
+import uk.matvey.kit.random.RandomKit.randomNumeric
 import uk.matvey.telek.TgBot
 import uk.matvey.telek.TgInlineKeyboardButton
 
@@ -33,13 +34,44 @@ fun main(args: Array<String>) = runBlocking {
                     chatId = from.id,
                     text = "Inline keyboard",
                     inlineKeyboard = listOf(
-                        listOf(TgInlineKeyboardButton.url("URL", randomHttps())),
-                        listOf(TgInlineKeyboardButton.callbackData("Remove keyboard", "ikb/remove"))
+                        listOf(TgInlineKeyboardButton.url("Go to random URL", randomHttps())),
+                        listOf(TgInlineKeyboardButton.callbackData("Update text", "ikb/update-message-text")),
+                        listOf(TgInlineKeyboardButton.callbackData("Update markup", "ikb/row")),
+                        listOf(TgInlineKeyboardButton.callbackData("Remove markup", "ikb/remove-markup")),
                     ),
                 ).let { log.info { it } }
-            } else if (update.callbackQuery?.data == "ikb/remove") {
+            } else if (update.callbackQuery?.data == "ikb") {
                 val callbackQuery = update.callbackQuery()
-                bot.updateMessageInlineKeyboard(callbackQuery.message, listOf()).let { log.info { it } }
+                bot.editMessage(
+                    callbackQuery.message, inlineKeyboard = listOf(
+                        listOf(TgInlineKeyboardButton.url("Go to random URL", randomHttps())),
+                        listOf(TgInlineKeyboardButton.callbackData("Update text", "ikb/update-message-text")),
+                        listOf(TgInlineKeyboardButton.callbackData("Update markup", "ikb/row")),
+                        listOf(TgInlineKeyboardButton.callbackData("Remove markup", "ikb/remove-markup")),
+                    )
+                )
+            } else if (update.callbackQuery?.data == "ikb/update-message-text") {
+                val callbackQuery = update.callbackQuery()
+                bot.editMessage(callbackQuery.message, text = "Updated text: ${randomNumeric(3)}")
+                    .let { log.info { it } }
+                bot.answerCallbackQuery(callbackQuery.id).let { log.info { it } }
+            } else if (update.callbackQuery?.data == "ikb/row") {
+                val callbackQuery = update.callbackQuery()
+                bot.editMessage(
+                    callbackQuery.message, inlineKeyboard = listOf(
+                        listOf(TgInlineKeyboardButton.url("Go to random URL", randomHttps())),
+                        listOf(TgInlineKeyboardButton.callbackData("Update text", "ikb/update-message-text")),
+                        listOf(
+                            TgInlineKeyboardButton.callbackData("Update markup", "ikb"),
+                            TgInlineKeyboardButton.callbackData("Remove markup", "ikb/remove-markup"),
+                        )
+                    )
+                )
+                    .let { log.info { it } }
+                bot.answerCallbackQuery(callbackQuery.id).let { log.info { it } }
+            } else if (update.callbackQuery?.data == "ikb/remove-markup") {
+                val callbackQuery = update.callbackQuery()
+                bot.editMessage(callbackQuery.message, inlineKeyboard = listOf()).let { log.info { it } }
                 bot.answerCallbackQuery(callbackQuery.id).let { log.info { it } }
             }
         }

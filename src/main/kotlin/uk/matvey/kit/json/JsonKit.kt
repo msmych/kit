@@ -24,6 +24,7 @@ object JsonKit {
         serializersModule = SerializersModule {
             contextual(InstantSerializer)
             contextual(LocalDateSerializer)
+            contextual(LocalTimeSerializer)
             contextual(LocalDateTimeSerializer)
             contextual(UriSerializer)
             contextual(UuidSerializer)

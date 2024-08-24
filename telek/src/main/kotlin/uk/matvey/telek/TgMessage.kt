@@ -3,6 +3,9 @@ package uk.matvey.telek
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * https://core.telegram.org/bots/api#message
+ */
 @Serializable
 data class TgMessage(
     @SerialName("message_id")
@@ -12,9 +15,13 @@ data class TgMessage(
     val chat: TgChat,
     @SerialName("parse_mode")
     val parseMode: TgParseMode? = null,
+    @SerialName("reply_markup")
+    val replyMarkup: TgInlineKeyboardMarkup? = null,
 ) {
 
     fun from() = requireNotNull(from)
 
     fun text() = requireNotNull(text)
+
+    fun replyMarkup() = requireNotNull(replyMarkup)
 }
