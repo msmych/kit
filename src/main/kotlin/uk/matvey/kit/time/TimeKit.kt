@@ -3,6 +3,7 @@ package uk.matvey.kit.time
 import java.time.Clock
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.Year
 import java.time.YearMonth
 
@@ -16,7 +17,7 @@ object TimeKit {
 
     fun localDate() = LocalDate.now(clock())
 
-    fun localTime() = LocalDateTime.now(clock())
+    fun localTime() = LocalTime.now(clock())
 
     fun localDateTime() = LocalDateTime.now(clock())
 
