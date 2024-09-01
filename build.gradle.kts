@@ -22,7 +22,8 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
@@ -92,7 +93,7 @@ publishing {
                 url = uri("https://maven.pkg.github.com/msmych/kit")
                 credentials {
                     username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GH_TOKEN")
+                    password = System.getenv("GH_PACKAGES_RW_TOKEN")
                 }
             }
         }

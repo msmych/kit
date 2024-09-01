@@ -3,6 +3,7 @@ package uk.matvey.kit.string
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.string.StringKit.capital
+import uk.matvey.kit.string.StringKit.fullName
 import uk.matvey.kit.string.StringKit.toInstant
 import uk.matvey.kit.string.StringKit.toLocalDate
 import uk.matvey.kit.string.StringKit.toLocalDateTime
@@ -71,5 +72,18 @@ class StringKitTest {
 
         // when / then
         assertThat(instant.toString().toInstant()).isEqualTo(instant)
+    }
+
+    @Test
+    fun `should join first and last names`() {
+        // given
+        val firstName = "John"
+        val lastName = "Doe"
+
+        // when / then
+        assertThat(fullName(firstName, lastName)).isEqualTo("John Doe")
+        assertThat(fullName(firstName, null)).isEqualTo("John")
+        assertThat(fullName(null, lastName)).isEqualTo("Doe")
+        assertThat(fullName(null, null)).isNull()
     }
 }
