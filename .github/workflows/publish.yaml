@@ -1,6 +1,11 @@
-name: Publish packages
+name: Publish to GitHub Packages
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
 
 jobs:
   release:
@@ -19,4 +24,4 @@ jobs:
       - name: Publish
         run: ./gradlew publish
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_PACKAGES_RW_TOKEN: ${{ secrets.GH_PACKAGES_RW_TOKEN }}

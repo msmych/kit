@@ -28,4 +28,10 @@ object StringKit {
     fun String.toYearMonth() = YearMonth.parse(this)
 
     fun String.toInstant() = Instant.parse(this)
+
+    fun fullName(firstName: String?, lastName: String?): String? {
+        return listOfNotNull(firstName, lastName)
+            .takeIf { it.isNotEmpty() }
+            ?.joinToString(" ")
+    }
 }
