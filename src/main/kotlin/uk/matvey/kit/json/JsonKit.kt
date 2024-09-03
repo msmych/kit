@@ -43,19 +43,19 @@ object JsonKit {
         return json().decodeFromString(json)
     }
 
-    inline fun <reified T> jsonObjectSerialize(value: T): JsonObject {
+    inline fun <reified T> jsonObjectEncode(value: T): JsonObject {
         return json().encodeToJsonElement(value).jsonObject
     }
 
-    fun jsonObjectDeserialize(json: String): JsonObject {
+    fun jsonObjectParse(json: String): JsonObject {
         return json().parseToJsonElement(json).jsonObject
     }
 
-    inline fun <reified T> jsonArraySerialize(values: Collection<T>): JsonArray {
+    inline fun <reified T> jsonArrayEncode(values: Collection<T>): JsonArray {
         return json().encodeToJsonElement(values).jsonArray
     }
 
-    fun jsonArrayDeserialize(json: String): JsonArray {
+    fun jsonArrayParse(json: String): JsonArray {
         return json().parseToJsonElement(json).jsonArray
     }
 

@@ -12,10 +12,12 @@ val logbackVersion: String by project
 val loggingVersion: String by project
 val mockkVersion: String by project
 val serializationVersion: String by project
+val typesafeConfigVersion: String by project
 
 dependencies {
     api("ch.qos.logback:logback-classic:$logbackVersion")
     api("com.neovisionaries:nv-i18n:$i18nVersion")
+    api("com.typesafe:config:$typesafeConfigVersion")
     api("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
