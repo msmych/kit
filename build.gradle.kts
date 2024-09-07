@@ -8,9 +8,9 @@ val assertjVersion: String by project
 val coroutinesVersion: String by project
 val i18nVersion: String by project
 val junitVersion: String by project
+val kotestVersion: String by project
 val logbackVersion: String by project
 val loggingVersion: String by project
-val mockkVersion: String by project
 val serializationVersion: String by project
 val typesafeConfigVersion: String by project
 
@@ -26,7 +26,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
 

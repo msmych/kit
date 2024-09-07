@@ -33,43 +33,41 @@ object JsonKit {
         }
     }
 
-    fun json() = JSON
-
     inline fun <reified T> jsonSerialize(value: T): String {
-        return json().encodeToString(value)
+        return JSON.encodeToString(value)
     }
 
     inline fun <reified T> jsonDeserialize(json: String): T {
-        return json().decodeFromString(json)
+        return JSON.decodeFromString(json)
     }
 
     inline fun <reified T> jsonObjectEncode(value: T): JsonObject {
-        return json().encodeToJsonElement(value).jsonObject
+        return JSON.encodeToJsonElement(value).jsonObject
     }
 
     fun jsonObjectParse(json: String): JsonObject {
-        return json().parseToJsonElement(json).jsonObject
+        return JSON.parseToJsonElement(json).jsonObject
     }
 
     inline fun <reified T> jsonArrayEncode(values: Collection<T>): JsonArray {
-        return json().encodeToJsonElement(values).jsonArray
+        return JSON.encodeToJsonElement(values).jsonArray
     }
 
     fun jsonArrayParse(json: String): JsonArray {
-        return json().parseToJsonElement(json).jsonArray
+        return JSON.parseToJsonElement(json).jsonArray
     }
 
-    fun JsonElement.asStrOrNull() = jsonPrimitive.contentOrNull
+    fun JsonElement?.asStrOrNull() = this?.jsonPrimitive?.contentOrNull
 
-    fun JsonElement.asStr() = jsonPrimitive.content
+    fun JsonElement?.asStr() = requireNotNull(this).jsonPrimitive.content
 
-    fun JsonElement.asLongOrNull() = jsonPrimitive.longOrNull
+    fun JsonElement?.asLongOrNull() = this?.jsonPrimitive?.longOrNull
 
-    fun JsonElement.asLong() = jsonPrimitive.long
+    fun JsonElement?.asLong() = requireNotNull(this).jsonPrimitive.long
 
-    fun JsonElement.asBoolOrNull() = jsonPrimitive.booleanOrNull
+    fun JsonElement?.asBoolOrNull() = this?.jsonPrimitive?.booleanOrNull
 
-    fun JsonElement.asBool() = jsonPrimitive.boolean
+    fun JsonElement?.asBool() = requireNotNull(this).jsonPrimitive.boolean
 
     fun JsonObject.strOrNull(key: String) = get(key)?.asStrOrNull()
 

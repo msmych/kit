@@ -4,11 +4,19 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import uk.matvey.kit.random.RandomKit.randomAlphanumeric
+import uk.matvey.kit.random.RandomKit.randomBool
 import uk.matvey.kit.random.RandomKit.randomHttps
 import uk.matvey.kit.random.RandomKit.randomStr
 import java.net.URI
 
 class RandomKitTest {
+
+    @Test
+    fun `should generate random bool`() {
+        val results = (0..<1000).map { randomBool() }.groupingBy { it }.eachCount()
+
+        assertThat(results.values.max() - results.values.min()).isLessThan(100)
+    }
 
     @Test
     fun `should generate random str`() {
