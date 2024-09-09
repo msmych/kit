@@ -89,5 +89,7 @@ object JsonKit {
 
     fun JsonObject.arr(key: String) = getValue(key).jsonArray
 
+    fun JsonArray.objAtOrNull(index: Int) = getOrNull(index)?.jsonObject
+
     fun JsonArray.objAt(index: Int) = get(index).jsonObject
 }

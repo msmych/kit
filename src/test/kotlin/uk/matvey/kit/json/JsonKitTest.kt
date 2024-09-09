@@ -6,24 +6,41 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.addJsonObject
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.put
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.matvey.kit.json.JsonKit.JSON
+import uk.matvey.kit.json.JsonKit.arr
+import uk.matvey.kit.json.JsonKit.arrOrNull
 import uk.matvey.kit.json.JsonKit.asBool
 import uk.matvey.kit.json.JsonKit.asBoolOrNull
 import uk.matvey.kit.json.JsonKit.asLong
 import uk.matvey.kit.json.JsonKit.asLongOrNull
 import uk.matvey.kit.json.JsonKit.asStr
 import uk.matvey.kit.json.JsonKit.asStrOrNull
+import uk.matvey.kit.json.JsonKit.bool
+import uk.matvey.kit.json.JsonKit.boolOrNull
 import uk.matvey.kit.json.JsonKit.jsonArrayEncode
 import uk.matvey.kit.json.JsonKit.jsonArrayParse
 import uk.matvey.kit.json.JsonKit.jsonDeserialize
 import uk.matvey.kit.json.JsonKit.jsonObjectEncode
 import uk.matvey.kit.json.JsonKit.jsonObjectParse
 import uk.matvey.kit.json.JsonKit.jsonSerialize
+import uk.matvey.kit.json.JsonKit.long
+import uk.matvey.kit.json.JsonKit.longOrNull
+import uk.matvey.kit.json.JsonKit.obj
+import uk.matvey.kit.json.JsonKit.objAt
+import uk.matvey.kit.json.JsonKit.objAtOrNull
+import uk.matvey.kit.json.JsonKit.objOrNull
+import uk.matvey.kit.json.JsonKit.str
+import uk.matvey.kit.json.JsonKit.strOrNull
 import uk.matvey.kit.random.RandomKit.randomBool
 import uk.matvey.kit.random.RandomKit.randomHttps
 import uk.matvey.kit.random.RandomKit.randomLong
@@ -49,6 +66,8 @@ class JsonKitTest {
         val string: String,
         val long: Long,
         val bool: Boolean,
+        val obj: JsonObject,
+        val arr: JsonArray,
         val instant: @Contextual Instant,
         val localDate: @Contextual LocalDate,
         val localDateTime: @Contextual LocalDateTime,
@@ -62,6 +81,15 @@ class JsonKitTest {
         string = randomStr(),
         long = randomLong(),
         bool = randomBool(),
+        obj = buildJsonObject {
+            put("key", "value")
+        },
+        arr = buildJsonArray {
+            add("value")
+            addJsonObject {
+                put("key", "value")
+            }
+        },
         instant = instant(),
         localDate = localDate(),
         localDateTime = localDateTime(),
@@ -123,5 +151,29 @@ class JsonKitTest {
         assertThat(json["bool"].asBoolOrNull()).isEqualTo(dummy.bool)
         assertThat(json["wrong"].asBoolOrNull()).isNull()
         assertThat(json["bool"].asBool()).isEqualTo(dummy.bool)
+
+        assertThat(json.strOrNull("string")).isEqualTo(dummy.string)
+        assertThat(json.strOrNull("wrong")).isNull()
+        assertThat(json.str("string")).isEqualTo(dummy.string)
+
+        assertThat(json.longOrNull("long")).isEqualTo(dummy.long)
+        assertThat(json.longOrNull("wrong")).isNull()
+        assertThat(json.long("long")).isEqualTo(dummy.long)
+
+        assertThat(json.boolOrNull("bool")).isEqualTo(dummy.bool)
+        assertThat(json.boolOrNull("wrong")).isNull()
+        assertThat(json.bool("bool")).isEqualTo(dummy.bool)
+
+        assertThat(json.objOrNull("obj")).isEqualTo(dummy.obj)
+        assertThat(json.objOrNull("wrong")).isNull()
+        assertThat(json.obj("obj")).isEqualTo(dummy.obj)
+
+        assertThat(json.arrOrNull("arr")).isEqualTo(dummy.arr)
+        assertThat(json.arrOrNull("wrong")).isNull()
+        assertThat(json.arr("arr")).isEqualTo(dummy.arr)
+
+        assertThat(json.arr("arr").objAtOrNull(1)).isEqualTo(dummy.arr[1])
+        assertThat(json.arr("arr").objAtOrNull(999)).isNull()
+        assertThat(json.arr("arr").objAt(1)).isEqualTo(dummy.arr[1])
     }
 }

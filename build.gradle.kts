@@ -1,7 +1,7 @@
 plugins {
     `maven-publish`
-    kotlin("jvm") version "2.0.0"
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 val assertjVersion: String by project
@@ -55,12 +55,15 @@ subprojects {
     }
 }
 
+group = "uk.matvey"
+version = project.findProperty("releaseVersion") as? String ?: "0.1.0-SNAPSHOT"
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            groupId = "uk.matvey"
+            groupId = project.group as String
             artifactId = "kit"
-            version = project.findProperty("releaseVersion") as? String ?: "0.1.0-SNAPSHOT"
+            version = project.version as String
 
             from(components["java"])
 
