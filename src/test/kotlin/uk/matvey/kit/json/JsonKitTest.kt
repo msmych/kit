@@ -42,15 +42,16 @@ import uk.matvey.kit.json.JsonKit.objOrNull
 import uk.matvey.kit.json.JsonKit.str
 import uk.matvey.kit.json.JsonKit.strOrNull
 import uk.matvey.kit.random.RandomKit.randomBool
-import uk.matvey.kit.random.RandomKit.randomHttps
 import uk.matvey.kit.random.RandomKit.randomLong
 import uk.matvey.kit.random.RandomKit.randomStr
+import uk.matvey.kit.random.RandomKit.randomUrl
 import uk.matvey.kit.time.TimeKit.instant
 import uk.matvey.kit.time.TimeKit.localDate
 import uk.matvey.kit.time.TimeKit.localDateTime
 import uk.matvey.kit.time.TimeKit.year
 import uk.matvey.kit.time.TimeKit.yearMonth
 import java.net.URI
+import java.net.URL
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -72,6 +73,7 @@ class JsonKitTest {
         val localDate: @Contextual LocalDate,
         val localDateTime: @Contextual LocalDateTime,
         val uri: @Contextual URI,
+        val url: @Contextual URL,
         val uuid: @Contextual UUID,
         val yearMonth: @Contextual YearMonth,
         val year: @Contextual Year,
@@ -93,7 +95,8 @@ class JsonKitTest {
         instant = instant(),
         localDate = localDate(),
         localDateTime = localDateTime(),
-        uri = URI.create(randomHttps()),
+        uri = URI.create(randomUrl()),
+        url = URI.create(randomUrl()).toURL(),
         uuid = randomUUID(),
         yearMonth = yearMonth(),
         year = year(),
@@ -108,6 +111,7 @@ class JsonKitTest {
             "localDate": "${dummy.localDate}",
             "localDateTime": "${dummy.localDateTime}",
             "uri": "${dummy.uri}",
+            "url": "${dummy.url}",
             "uuid": "${dummy.uuid}",
             "yearMonth": "${dummy.yearMonth}",
             "year": "${dummy.year}"

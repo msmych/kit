@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import uk.matvey.kit.random.RandomKit.randomAlphanumeric
 import uk.matvey.kit.random.RandomKit.randomBool
-import uk.matvey.kit.random.RandomKit.randomHttps
+import uk.matvey.kit.random.RandomKit.randomUrl
 import uk.matvey.kit.random.RandomKit.randomStr
 import java.net.URI
 
@@ -44,9 +44,9 @@ class RandomKitTest {
     }
 
     @Test
-    fun `should create random https url`() {
+    fun `should create random url`() {
         // when
-        val randomHttps = randomHttps()
+        val randomHttps = randomUrl()
 
         // then
         assertThat(URI.create(randomHttps).scheme).isEqualTo("https")

@@ -27,6 +27,7 @@ object JsonKit {
             contextual(LocalTimeSerializer)
             contextual(LocalDateTimeSerializer)
             contextual(UriSerializer)
+            contextual(UrlSerializer)
             contextual(UuidSerializer)
             contextual(YearMonthSerializer)
             contextual(YearSerializer)

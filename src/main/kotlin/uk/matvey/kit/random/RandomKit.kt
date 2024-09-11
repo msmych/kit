@@ -84,7 +84,7 @@ object RandomKit {
         return "${randomName().lowercase()}@${randomAlphanumeric(randomInt(1..12)).lowercase()}.${DOMAINS.random()}"
     }
 
-    fun randomHttps(): String {
+    fun randomUrl(): String {
         val name = (0..randomInt(1..<3))
             .joinToString(".") {
                 randomAlphanumeric(randomInt(1..12))
