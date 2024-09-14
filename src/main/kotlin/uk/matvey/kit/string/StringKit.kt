@@ -9,6 +9,14 @@ import java.util.UUID
 
 object StringKit {
 
+    val LOWERCASE_LETTERS = ('a'..'z').toList()
+    val UPPERCASE_LETTERS = ('A'..'Z').toList()
+    val LETTERS = LOWERCASE_LETTERS + UPPERCASE_LETTERS
+    val DIGITS = ('0'..'9').toList()
+    val ALPHANUMERIC = LETTERS + DIGITS
+    val SPECIAL_SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?".toList()
+    val ALL_SYMBOLS = ALPHANUMERIC + SPECIAL_SYMBOLS + ' '
+
     fun capital(str: String): String {
         return str.replaceFirstChar {
             if (it.isLowerCase()) {

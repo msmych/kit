@@ -1,17 +1,13 @@
 package uk.matvey.kit.random
 
+import uk.matvey.kit.string.StringKit.ALL_SYMBOLS
+import uk.matvey.kit.string.StringKit.ALPHANUMERIC
+import uk.matvey.kit.string.StringKit.DIGITS
+import uk.matvey.kit.string.StringKit.LETTERS
 import uk.matvey.kit.string.StringKit.capital
 import kotlin.random.Random
 
 object RandomKit {
-
-    private val LOWERCASE_LETTERS = ('a'..'z').toList()
-    private val UPPERCASE_LETTERS = ('A'..'Z').toList()
-    private val LETTERS = LOWERCASE_LETTERS + UPPERCASE_LETTERS
-    private val DIGITS = ('0'..'9').toList()
-    private val ALPHANUMERIC = LETTERS + DIGITS
-    private val SPECIAL_SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?".toList()
-    private val ALL_SYMBOLS = ALPHANUMERIC + SPECIAL_SYMBOLS + ' '
 
     private val DOMAINS = listOf(
         "au",
