@@ -1,7 +1,7 @@
 plugins {
     `maven-publish`
-    kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 val assertjVersion: String by project
@@ -47,12 +47,6 @@ java {
 
 kotlin {
     jvmToolchain(21)
-}
-
-subprojects {
-    repositories {
-        mavenCentral()
-    }
 }
 
 group = "uk.matvey"
