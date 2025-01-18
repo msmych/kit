@@ -17,7 +17,7 @@ object StringKit {
     val SPECIAL_SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?".toList()
     val ALL_SYMBOLS = ALPHANUMERIC + SPECIAL_SYMBOLS + ' '
 
-    fun capital(str: String): String {
+    fun capitalize(str: String): String {
         return str.replaceFirstChar {
             if (it.isLowerCase()) {
                 it.titlecase(Locale.ENGLISH)

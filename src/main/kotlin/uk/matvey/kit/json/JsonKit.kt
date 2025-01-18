@@ -22,6 +22,7 @@ object JsonKit {
     val JSON = Json {
         ignoreUnknownKeys = true
         serializersModule = SerializersModule {
+            contextual(BigDecimalSerializer)
             contextual(InstantSerializer)
             contextual(LocalDateSerializer)
             contextual(LocalTimeSerializer)

@@ -41,15 +41,14 @@ import uk.matvey.kit.json.JsonKit.objAtOrNull
 import uk.matvey.kit.json.JsonKit.objOrNull
 import uk.matvey.kit.json.JsonKit.str
 import uk.matvey.kit.json.JsonKit.strOrNull
-import uk.matvey.kit.random.RandomKit.randomBool
-import uk.matvey.kit.random.RandomKit.randomLong
+import uk.matvey.kit.random.RandomKit.randomAlphanumeric
 import uk.matvey.kit.random.RandomKit.randomStr
-import uk.matvey.kit.random.RandomKit.randomUrl
 import uk.matvey.kit.time.TimeKit.instant
 import uk.matvey.kit.time.TimeKit.localDate
 import uk.matvey.kit.time.TimeKit.localDateTime
 import uk.matvey.kit.time.TimeKit.year
 import uk.matvey.kit.time.TimeKit.yearMonth
+import java.math.BigDecimal
 import java.net.URI
 import java.net.URL
 import java.time.Instant
@@ -59,6 +58,7 @@ import java.time.Year
 import java.time.YearMonth
 import java.util.UUID
 import java.util.UUID.randomUUID
+import kotlin.random.Random
 
 class JsonKitTest {
 
@@ -69,6 +69,7 @@ class JsonKitTest {
         val bool: Boolean,
         val obj: JsonObject,
         val arr: JsonArray,
+        val bigDecimal: @Contextual BigDecimal,
         val instant: @Contextual Instant,
         val localDate: @Contextual LocalDate,
         val localDateTime: @Contextual LocalDateTime,
@@ -81,8 +82,8 @@ class JsonKitTest {
 
     private val dummy = Dummy(
         string = randomStr(),
-        long = randomLong(),
-        bool = randomBool(),
+        long = Random.nextLong(),
+        bool = Random.nextBoolean(),
         obj = buildJsonObject {
             put("key", "value")
         },
@@ -93,10 +94,11 @@ class JsonKitTest {
             }
         },
         instant = instant(),
+        bigDecimal = BigDecimal.TEN,
         localDate = localDate(),
         localDateTime = localDateTime(),
-        uri = URI.create(randomUrl()),
-        url = URI.create(randomUrl()).toURL(),
+        uri = URI.create("https://example.com/${randomAlphanumeric()}"),
+        url = URI.create("https://example.com/${randomAlphanumeric()}").toURL(),
         uuid = randomUUID(),
         yearMonth = yearMonth(),
         year = year(),
@@ -108,6 +110,7 @@ class JsonKitTest {
             "long": ${dummy.long},
             "bool": ${dummy.bool},
             "instant": "${dummy.instant}",
+            "bigDecimal": "${dummy.bigDecimal}",
             "localDate": "${dummy.localDate}",
             "localDateTime": "${dummy.localDateTime}",
             "uri": "${dummy.uri}",

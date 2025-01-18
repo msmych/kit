@@ -6,15 +6,16 @@ Kotlin utilities.
 
 Contextual serializers for:
 
-* `java.time.Instant`
-* `java.time.LocalDate`
-* `java.time.LocalTime`
-* `java.time.LocalDate`
+* `java.math.BigDecimal`
 * `java.net.Uri`
 * `java.net.Url`
-* `java.util.UUID`
+* `java.time.Instant`
+* `java.time.LocalDate`
+* `java.time.LocalDateTime`
+* `java.time.LocalTime`
 * `java.time.YearMonth`
 * `java.time.Year`
+* `java.util.UUID`
 
 ## NetKit
 
@@ -33,5 +34,22 @@ assertThat(queryParam).isEqualTo("0")
 ## RandomKit
 
 ## StringKit
+
+Extension functions to convert strings to:
+
+* `java.util.UUID`
+* `java.time.Instant`
+* `java.time.LocalDate`
+* `java.time.LocalDateTime`
+* `java.time.LocalTime`
+* `java.time.YearMonth`
+
+First letter capitalization:
+    
+```kotlin
+val capitalized = capitalize(str)
+
+assertThat(capitalized).isEqualTo("Hello")
+```
 
 ## TimeKit

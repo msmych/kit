@@ -2,7 +2,7 @@ package uk.matvey.kit.string
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import uk.matvey.kit.string.StringKit.capital
+import uk.matvey.kit.string.StringKit.capitalize
 import uk.matvey.kit.string.StringKit.fullName
 import uk.matvey.kit.string.StringKit.toInstant
 import uk.matvey.kit.string.StringKit.toLocalDate
@@ -23,7 +23,7 @@ class StringKitTest {
         val str = "hello"
 
         // when
-        val capitalized = capital(str)
+        val capitalized = capitalize(str)
 
         // then
         assertThat(capitalized).isEqualTo("Hello")
